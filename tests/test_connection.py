@@ -5,6 +5,7 @@ from eth_account.signers.local import LocalAccount
 from web3.middleware import construct_sign_and_send_raw_middleware
 from dotenv import load_dotenv
 import json
+
 load_dotenv()
 
 ALCHEMY_API_KEY = os.getenv("ALCHEMY_API_KEY")
@@ -15,7 +16,8 @@ account: LocalAccount = Account.from_key(PRIVATE_KEY)
 web3.middleware_onion.add(construct_sign_and_send_raw_middleware(account))
 web3.eth.default_account = account.address
 
-abi = json.loads('''[
+abi = json.loads(
+    """[
 	{
 		"anonymous": false,
 		"inputs": [
@@ -115,8 +117,9 @@ abi = json.loads('''[
 		"stateMutability": "view",
 		"type": "function"
 	}
-]''')
-address="0x800E9AD3aCbf7b80a3f2e06Ac5C2B8565dC4c44c"
+]"""
+)
+address = "0x800E9AD3aCbf7b80a3f2e06Ac5C2B8565dC4c44c"
 
 print(web3.is_connected())
 print(web3.eth.block_number)
@@ -127,5 +130,7 @@ balance = web3.eth.get_balance("0xcf677A9701C5453CCD455AC6BE472BC336Ab17c7")
 print(web3.from_wei(balance, "ether"))
 
 
-my_filter = contract.events.DataStored.create_filter(fromBlock=0, argument_filters={"amount": 70})
+my_filter = contract.events.DataStored.create_filter(
+    fromBlock=0, argument_filters={"amount": 70}
+)
 print(my_filter.get_new_entries())
