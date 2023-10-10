@@ -125,7 +125,11 @@ print(web3.is_connected())
 print(web3.eth.block_number)
 contract = web3.eth.contract(address=address, abi=abi)
 print(contract.functions.retrieveData().call())
-print(contract.functions.storeData(70, "fuckyouevenmore").transact())
+try:
+    tx_hash = contract.functions.storeData(68, "iloveweb3").transact()
+    print(web3.eth.wait_for_transaction_receipt(tx_hash)["transactionHash"].hex())
+except ValueError as ve:
+    print(ve)
 balance = web3.eth.get_balance("0xcf677A9701C5453CCD455AC6BE472BC336Ab17c7")
 print(web3.from_wei(balance, "ether"))
 
